@@ -3,16 +3,25 @@ import React, { Component, PropTypes } from 'react';
 // Import Style
 import styles from './DimensionsList.css';
 
+// Import Components
+import DimensionsListDetailed from '../DimensionsListDetailed/DimensionsListDetailed';
+
 export class DimensionsList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { showExpandedDimensions: false };
 
+    this.expandDimensions = this.expandDimensions.bind(this);
     this.listDimensionAbbreviations = this.listDimensionAbbreviations.bind(this);
   }
 
+  expandDimensions = () => {
+    this.setState({showExpandedDimensions: true}); // eslint-disable-line
+  };
+
   listDimensionAbbreviations(filteredDimensions) {
+    const self = this;
     const dimensionAbbreviationsList = [];
     let dimensionsToShow = [];
 
@@ -30,7 +39,7 @@ export class DimensionsList extends Component {
           {(dimensionIndex !== dimensionsArray.length - 1) ? (
             <span>, </span>
           ) : (
-            <a className={styles['dimensionlist-dimension-expand-link']}> ...</a>
+            <a className={styles['dimensionlist-dimension-expand-link']} onClick={() => self.expandDimensions()}> ...</a>
           )}
         </span>);
     });
@@ -46,7 +55,15 @@ export class DimensionsList extends Component {
 
       return (
         <div>
-          {this.listDimensionAbbreviations(filteredDimensions)}
+          {(this.state.showExpandedDimensions === false) ? (
+            <div className="listView">
+              {this.listDimensionAbbreviations(filteredDimensions)}
+            </div>
+          ) : (
+            <DimensionsListDetailed
+              dimensions={filteredDimensions}
+            />
+          )}
         </div>
       );
     }
