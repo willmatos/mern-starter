@@ -5,6 +5,8 @@ import handleRESTResponse from '../../util/restUtils';
 export const START_METRICS_REQUEST = 'START_METRICS_REQUEST';
 export const END_METRICS_REQUEST = 'END_METRICS_REQUEST';
 export const RECEIVE_METRICS = 'RECEIVE_METRICS';
+export const SET_METRICS_FILTER = 'SET_METRICS_FILTER';
+export const UPDATE_SELECTED_METRICS = 'UPDATE_SELECTED_METRICS';
 
 function startMetricsRequest() {
   return {
@@ -22,6 +24,20 @@ function receiveMetrics(metrics) {
   return {
     type: RECEIVE_METRICS,
     metrics,
+  };
+}
+
+function setMetricsFilter(filters) {
+  return {
+    type: SET_METRICS_FILTER,
+    filters,
+  };
+}
+
+function updateSelectedMetrics(metricsIDs) {
+  return {
+    type: UPDATE_SELECTED_METRICS,
+    metricsIDs,
   };
 }
 
@@ -52,5 +68,21 @@ export function getMetrics() {
       /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
       console.error(errorText + err.message, errorLabel);
     });
+  };
+}
+
+export function applyMetricsFilter(filters) {
+  return (dispatch) => {
+    dispatch(setMetricsFilter(filters));
+    dispatch(updateSelectedMetrics(filters));
+  };
+}
+
+export function clearMetricsFilter() {
+  return (dispatch) => {
+    const nullFilter = {};
+
+    dispatch(applyMetricsFilter(nullFilter));
+    dispatch(updateSelectedMetrics([]));
   };
 }

@@ -15,14 +15,22 @@ class MetricsList extends Component {
   listOfMetricsRows() {
     const self = this;
     const rowsList = [];
+    let selectedMetrics = this.props.metrics;
 
-    this.props.metrics.forEach(metric => {
+    if (this.props.selectedMetrics && self.props.selectedMetrics.length > 0) {
+      selectedMetrics = this.props.metrics.filter(item => {
+        return this.props.selectedMetrics.includes(item._id);
+      });
+    }
+
+    selectedMetrics.forEach(metric => {
       rowsList.push(
         <MetricListItem
           metric={metric}
           metrics={self.props.metrics}
           dimensions={self.props.dimensions}
           key={`metric-list-item-row-${metric._id}`}
+          filterMetricsList={self.props.filterMetricsList}
         />
       );
     });
@@ -40,8 +48,8 @@ class MetricsList extends Component {
                   this.props.dimensions.length <= 0));
 
     return (
-      <div className="table-responsive">
-        <table className="table table-bordered">
+      <div className="listView table-responsive">
+        <table className="metric-list-table table table-bordered">
           <thead className="thead-dark">
             <tr>
               <th scope="col">Id</th>
@@ -63,11 +71,11 @@ class MetricsList extends Component {
               <tbody>
                 <tr>
                   <td colSpan="7">
-                    <div>
-                      <h1>
+                    <div className="no-metrics-container">
+                      <h1 className="no-metrics-title">
                         Your Metrics List is empty.
                       </h1>
-                      <h3>
+                      <h3 className="no-metrics-subtitle">
                         Please add some metrics and then come back.
                       </h3>
                     </div>
@@ -82,6 +90,7 @@ class MetricsList extends Component {
 }
 
 MetricsList.propTypes = {
+  filterMetricsList: PropTypes.func.isRequired,
   metrics: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -94,6 +103,7 @@ MetricsList.propTypes = {
     name: PropTypes.string.isRequired,
     latest_value: PropTypes.number.isRequired,
   })).isRequired,
+  selectedMetrics: PropTypes.arrayOf(PropTypes.string.isRequired),
 };
 
 export default MetricsList;

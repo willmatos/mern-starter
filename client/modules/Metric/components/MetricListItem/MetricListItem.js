@@ -11,12 +11,24 @@ export class MetricListItem extends Component {
     this.state = {};
 
     this.relatedMetricsColumns = this.relatedMetricsColumns.bind(this);
+    this.onMetricLinkClick = this.onMetricLinkClick.bind(this);
+  }
+
+  onMetricLinkClick() {
+    const self = this;
+
+    const metricsFilter = {
+      selected_parent_metric: self.props.metric,
+      dependent_metrics_ids: self.props.metric.dependent_metrics_ids,
+    };
+
+    this.props.filterMetricsList(metricsFilter);
   }
 
   relatedMetricsColumns() {
     const self = this;
 
-    const relatedMetrics = this.props.metrics.filter(item => {
+    const relatedMetrics = self.props.metrics.filter(item => {
       return self.props.metric.dependent_metrics_ids.includes(item._id);
     });
 
@@ -36,7 +48,7 @@ export class MetricListItem extends Component {
       let i = 0;
 
       while (i < (3 - relatedMetrics.length)) {
-        relatedMetricsColumns.push(<td key={`releated-metrics-column-empty-${this.props.metric}-${i}`}></td>);
+        relatedMetricsColumns.push(<td key={`related-metrics-column-empty-${this.props.metric}-${i}`}></td>);
         i++;
       }
     }
@@ -52,24 +64,34 @@ export class MetricListItem extends Component {
     return (
       <tr key={this.props.metric._id}>
         <th scope="row">
-          {this.props.metric._id}
+          <a
+            onClick={() => this.onMetricLinkClick()}
+            className="dependent-metric-link"
+          >
+            {this.props.metric._id}
+          </a>
         </th>
         <td>
-          {this.props.metric.name}
+          <a
+            onClick={() => this.onMetricLinkClick()}
+            className="dependent-metric-link"
+          >
+            {this.props.metric.name}
+          </a>
         </td>
         <td>
           <StatusBadge
             status={this.props.metric.status}
           />
         </td>
-          {(!noDimensions) &&
-            <td>
-              <DimensionsList
-                dimensionsIds={this.props.metric.dimensions}
-                dimensions={this.props.dimensions}
-              />
-            </td>
-          }
+        {(!noDimensions) &&
+          <td>
+            <DimensionsList
+              dimensionsIds={this.props.metric.dimensions}
+              dimensions={this.props.dimensions}
+            />
+          </td>
+        }
         {this.relatedMetricsColumns()}
       </tr>
     );
@@ -77,6 +99,7 @@ export class MetricListItem extends Component {
 }
 
 MetricListItem.propTypes = {
+  filterMetricsList: PropTypes.func.isRequired,
   metric: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
