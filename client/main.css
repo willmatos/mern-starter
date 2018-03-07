@@ -32,3 +32,10 @@ body {
 	font-family: 'Lato', sans-serif;
 	font-size: 16px;
 }
+
+/* Override Bootstap Styles */
+a:not([href]):not([tabindex]) {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}

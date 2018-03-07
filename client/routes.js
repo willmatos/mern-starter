@@ -16,6 +16,7 @@ if (typeof require.ensure !== 'function') {
  */
 if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
+  require('./modules/Metric/pages/MetricsPage/MetricsPage');
   require('./modules/Post/pages/PostListPage/PostListPage');
   require('./modules/Post/pages/PostDetailPage/PostDetailPage');
 }
@@ -27,10 +28,20 @@ export default (
     <IndexRoute
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
-          cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
+          cb(null, require('./modules/Metric/pages/MetricsPage/MetricsPage').default);
         });
       }}
     />
+
+    <Route
+      path="/metrics"
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/Metric/pages/MetricsPage/MetricsPage').default);
+        });
+      }}
+    />
+
     <Route
       path="/posts/:slug-:cuid"
       getComponent={(nextState, cb) => {

@@ -9,6 +9,9 @@ import IntlWrapper from './modules/Intl/IntlWrapper';
 // Import Routes
 import routes from './routes';
 
+// Bootstrap stylesheet
+require('../node_modules/bootstrap/dist/css/bootstrap.css');
+
 // Base stylesheet
 require('./main.css');
 
