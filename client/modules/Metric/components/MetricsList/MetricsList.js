@@ -28,7 +28,6 @@ class MetricsList extends Component {
         <MetricListItem
           metric={metric}
           metrics={self.props.metrics}
-          dimensions={self.props.dimensions}
           key={`metric-list-item-row-${metric._id}`}
           filterMetricsList={self.props.filterMetricsList}
         />
@@ -42,10 +41,6 @@ class MetricsList extends Component {
     const noMetrics = !!((this.props.metrics === null ||
                   this.props.metrics === undefined ||
                   this.props.metrics.length <= 0));
-
-    const noDimensions = !!((this.props.dimensions === null ||
-                  this.props.dimensions === undefined ||
-                  this.props.dimensions.length <= 0));
 
     return (
       <div className="listView table-responsive">
@@ -61,7 +56,7 @@ class MetricsList extends Component {
               <th scope="col">Dep 3</th>
             </tr>
           </thead>
-            {(!noMetrics && !noDimensions) && (
+            {(!noMetrics) && (
               <tbody>
                 {this.listOfMetricsRows()}
               </tbody>
@@ -97,11 +92,6 @@ MetricsList.propTypes = {
     status: PropTypes.number.isRequired,
     dimensions: PropTypes.arrayOf(PropTypes.string).isRequired,
     dependent_metrics_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-  })).isRequired,
-  dimensions: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    latest_value: PropTypes.number.isRequired,
   })).isRequired,
   selectedMetrics: PropTypes.arrayOf(PropTypes.string.isRequired),
 };

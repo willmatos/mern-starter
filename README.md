@@ -1,3 +1,19 @@
+# Metrics POC
+
+This is a proof of concept for using react components with a non-relational database.
+
+## Things I would of done with more time
+
+1. Implemented elastic search for the backend so I could query on a get endpoint.
+
+2. Added pagination to the front end and queried the metrics about 25 at a time.
+
+3. Added a loading spinner for the entire metrics list that leverages isFetchingMetrics in the MetricReducer.
+
+4. Implemented another property on the DimensionReducer that contains a key value(array of the metric dimensions) pair on the Dimension Reducer in order to store the values for each component as they are fetched from the backend. The issue I wasnt able to overcome which I figured would be an issue is that on the updating of the state of each DimensionsList component it will update all of the DimensionsList components in the table. In order to overcome this i would of used the key value pair to fetch the dimensions for that specific component from the redux state. The issue that left me stuck was in creating the custom prop type checker.
+
+
+
 ![](http://res.cloudinary.com/hashnode/image/upload/w_200/v1466495663/static_imgs/mern/v2/mernio-logo.png)
 
 # mern-starter

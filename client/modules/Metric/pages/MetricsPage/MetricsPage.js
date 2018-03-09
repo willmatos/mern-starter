@@ -14,25 +14,17 @@ import {
   clearMetricsFilter,
 } from '../../MetricActions';
 
-import {
-  getDimensions,
-} from '../../../Dimension/DimensionActions';
-
 function mapStateToProps({
   metrics: {
     metrics,
     selectedMetrics,
     filters,
   },
-  dimensions: {
-    dimensions,
-  },
 }) {
   return {
     metrics,
     selectedMetrics,
     filters,
-    dimensions,
   };
 }
 
@@ -46,9 +38,6 @@ function mapDispatchToProps(dispatch) {
     },
     clearMetricsFilter: () => {
       dispatch(clearMetricsFilter());
-    },
-    getDimensions: () => {
-      dispatch(getDimensions());
     },
   };
 }
@@ -69,7 +58,6 @@ class MetricsPage extends Component {
 
   componentDidMount() {
     this.props.getMetrics();
-    this.props.getDimensions();
   }
 
   getNavigationPath() {
@@ -101,7 +89,7 @@ class MetricsPage extends Component {
       <div>
         {this.getNavigationPath()}
 
-        <MetricsList metrics={this.props.metrics} dimensions={this.props.dimensions} filterMetricsList={this.filterMetricsList} selectedMetrics={this.props.selectedMetrics} />
+        <MetricsList metrics={this.props.metrics} filterMetricsList={this.filterMetricsList} selectedMetrics={this.props.selectedMetrics} />
       </div>
     );
   }
@@ -119,12 +107,6 @@ MetricsPage.propTypes = {
     dependent_metrics_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
   })).isRequired,
   selectedMetrics: PropTypes.arrayOf(PropTypes.string),
-  getDimensions: PropTypes.func.isRequired,
-  dimensions: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    latest_value: PropTypes.number.isRequired,
-  })).isRequired,
 };
 
 MetricsPage.contextTypes = {

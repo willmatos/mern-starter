@@ -6,6 +6,9 @@ const router = new Router();
 router.route('/dimensions').get(DimensionController.getDimensions);
 
 // Get one dimension by id
+router.route('/dimensionsbymetric/:id').get(DimensionController.getDimensionsByMetricId);
+
+// Get one dimension by id
 router.route('/dimensions/:id').get(DimensionController.getDimension);
 
 export default router;

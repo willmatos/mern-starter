@@ -52,3 +52,33 @@ export function getDimensions() {
     });
   };
 }
+
+export function getDimensionsByMetricId(metricId) {
+  // debugger;
+  const errorText = 'An error occurred fetching your dimensions by id: ';
+  const errorLabel = 'DimensionsById error';
+
+  return (dispatch) => {
+    dispatch(startDimensionsRequest());
+
+    callApi(`dimensionsbymetric/${metricId}`)
+    .then((resp) => {
+      dispatch(endDimensionsRequest());
+      dispatch(handleRESTResponse({
+        response: resp,
+        successCallback: () => {
+          // debugger;
+          dispatch(receiveDimensions(resp.dimensions));
+        },
+        errorText: errorText + resp.statusText,
+        errorLabel,
+      }));
+    })
+    .catch((err) => {
+      dispatch(endDimensionsRequest());
+
+      /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+      console.error(errorText + err.message, errorLabel);
+    });
+  };
+}

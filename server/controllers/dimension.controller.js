@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import Dimension from '../models/dimension';
 
 /**
@@ -8,6 +10,25 @@ import Dimension from '../models/dimension';
  */
 export function getDimensions(req, res) {
   Dimension.find().sort('-dateAdded').exec((err, dimensions) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.json({ dimensions });
+  });
+}
+
+/**
+ * Get dimensions by Ids
+ * @param req
+ * @param res
+ * @returns void
+ */
+export function getDimensionsByMetricId(req, res) {
+  Dimension.find({
+    /*eslint-disable */
+    metric: mongoose.Types.ObjectId(req.params.id),
+    /*eslint-enable */
+  }).sort('-dateAdded').exec((err, dimensions) => {
     if (err) {
       res.status(500).send(err);
     }

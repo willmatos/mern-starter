@@ -57,10 +57,6 @@ export class MetricListItem extends Component {
   }
 
   render() {
-    const noDimensions = !!((this.props.dimensions === null ||
-                  this.props.dimensions === undefined ||
-                  this.props.dimensions.length <= 0));
-
     return (
       <tr key={this.props.metric._id}>
         <th scope="row">
@@ -84,14 +80,11 @@ export class MetricListItem extends Component {
             status={this.props.metric.status}
           />
         </td>
-        {(!noDimensions) &&
-          <td>
-            <DimensionsList
-              dimensionsIds={this.props.metric.dimensions}
-              dimensions={this.props.dimensions}
-            />
-          </td>
-        }
+        <td>
+          <DimensionsList
+            metric={this.props.metric}
+          />
+        </td>
         {this.relatedMetricsColumns()}
       </tr>
     );
@@ -113,11 +106,6 @@ MetricListItem.propTypes = {
     status: PropTypes.number.isRequired,
     dimensions: PropTypes.arrayOf(PropTypes.string).isRequired,
     dependent_metrics_ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-  })).isRequired,
-  dimensions: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    latest_value: PropTypes.number.isRequired,
   })).isRequired,
 };
 
