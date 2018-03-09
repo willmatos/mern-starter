@@ -1,3 +1,18 @@
+# Metrics POC
+
+This is a proof of concept for using react components with a non-relational database.
+
+## Things I would of done with more time
+
+1. Implemented elastic search for the backend so I could query on a get endpoint.
+
+2. Added pagination to the front end and queried the metrics about 25 at a time.
+
+3. This then would allow me to enrich the initial payload with the dimension details already loaded as it would minimize the overall dimensions payload.
+
+4. Added a loading spinner for the entire metrics list that leverages isFetchingMetrics in the MetricReducer.
+
+
 ![](http://res.cloudinary.com/hashnode/image/upload/w_200/v1466495663/static_imgs/mern/v2/mernio-logo.png)
 
 # mern-starter
